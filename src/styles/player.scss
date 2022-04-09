@@ -1,0 +1,22 @@
+.player {
+  //display: flex;
+  flex-direction: row;
+  width: 500px;
+  height: 300px;
+  background-color: #b6b6b6;
+  margin-top: 50px;
+  border-radius: 10px;
+  padding: 20px;
+  &__info {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__name {
+    margin: 0;
+    font-size: 30px;
+  }
+  &__score {
+    margin: 0;
+    font-size: 25px;
+  }
+}

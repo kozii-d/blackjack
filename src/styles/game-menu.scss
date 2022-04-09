@@ -1,0 +1,28 @@
+.game-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: $game-menu-width;
+  height: 100%;
+  background-color: #3f3f63;
+  &__card {
+    height: 300px;
+    width: 200px;
+    border-radius: 15px;
+    background-color: #556d55;
+    margin-top: 30px;
+  }
+  &__btn {
+    height: 80px;
+    width: 200px;
+    border-radius: 15px;
+    margin-top: 30px;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-size: 30px;
+    font-weight: bold;
+  }
+}
