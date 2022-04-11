@@ -1,22 +1,32 @@
 import Card from "./card";
 
 export default class Player {
-    #id = 0;
+    #id = null;
     #score = 0;
     #name = null;
     cards = [];
-    isWinner = false;
+    // isWinner = false;
+    isLose = false;
+    isStand = false;
 
     constructor(id, name) {
         this.#id = id;
         this.#name = name;
+        this.updatePlayer();
+    }
+
+    updatePlayer() {
         this.setScore();
         this.checkWin();
     }
 
     checkWin() {
         if (this.#score === 21) {
-            this.isWinner = true;
+            // this.isWinner = true;
+            this.isStand = true;
+        }
+        if (this.#score > 21) {
+            this.isLose = true;
         }
     }
 
@@ -32,6 +42,9 @@ export default class Player {
 
     get getPlayerName() {
         return this.#name;
+    }
+    get getPlayerId() {
+        return this.#id;
     }
 
 }
