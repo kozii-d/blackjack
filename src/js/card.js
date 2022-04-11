@@ -17,4 +17,8 @@ export default class Card {
     get getCardWeight() {
         return this.#weight;
     }
+
+    setCardWeight(weight) {
+        this.#weight = weight;
+    }
 }

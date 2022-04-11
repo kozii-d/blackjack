@@ -17,7 +17,18 @@ export default class Player {
 
     updatePlayer() {
         this.setScore();
+        this.checkAce();
         this.checkWin();
+    }
+
+    checkAce() {
+        this.cards.forEach(card => {
+            if (card.getCardName === 'A' && this.#score > 21) {
+                card.setCardWeight(1);
+            }
+        })
+        this.setScore();
+
     }
 
     checkWin() {
