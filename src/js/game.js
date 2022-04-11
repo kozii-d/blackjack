@@ -28,11 +28,10 @@ export default class Game {
     }
 
     checkEndGame() {
-        if (!this.players.length) {
-            this.isEndGame = true;
-        }
+        this.players.forEach(player => this.isEndGame = player.isStand);
     }
 
+    //todo: изменить способ установки активного id. Пропускать id игрока, который уже закончил игру
     setNextPlayerId() {
         if (this.idIndex >= this.arrayOfPlayerId.length) {
             this.idIndex = 0;
@@ -55,9 +54,14 @@ export default class Game {
         this.cardsDeck = this.cardsDeck.sort(() => 0.5 - Math.random());
     }
 
-    moveWinner() {
-        this.winners = this.winners.concat(this.players.filter(player => player.isStand && !player.isLose));
-        this.players = this.players.filter(player => !player.isStand && !player.isLose);
+    moveWinner(player) {
+        //todo: изменить метод. Дублируются игроки в массив winner. Можно в методе сделать проверку, агрументом передавать игрока и пушить его в winner
+       if (player.isStand && !player.isLose) {
+           this.winners.push(player);
+       }
+
+        // this.winners = this.winners.concat(this.players.filter(player => player.isStand && !player.isLose));
+        // this.players = this.players.filter(player => !player.isStand && !player.isLose);
     }
 
     defineWinner() {
@@ -77,8 +81,13 @@ export default class Game {
             player.cards.push(this.cardsDeck.shift());
             player.cards.push(this.cardsDeck.shift());
             player.updatePlayer();
+            this.moveWinner(player);
+            // todo: под вопросом
+            if (player.getPlayerScore === 21) {
+                this.setNextPlayerId();
+            }
         });
-        this.moveWinner();
+        // this.moveWinner(); \\\
         this.defineWinner();
         this.checkEndGame();
     }
@@ -88,11 +97,15 @@ export default class Game {
             if (player.getPlayerId === playerId) {
                 player.cards.push(this.cardsDeck.shift());
                 player.updatePlayer();
+                this.moveWinner(player);
+                if (player.getPlayerScore > 21) {
+                    this.setNextPlayerId();
+                }
             }
         });
-        this.moveWinner();
+        // this.moveWinner(); \\\\\
         this.defineWinner();
-        this.setNextPlayerId();
+        // this.setNextPlayerId();
         this.checkEndGame();
     }
 
@@ -101,9 +114,10 @@ export default class Game {
             if (player.getPlayerId === playerId) {
                 player.isStand = true;
                 player.updatePlayer();
+                this.moveWinner(player);
             }
         });
-        this.moveWinner();
+        // this.moveWinner(); \\\
         this.defineWinner();
         this.setNextPlayerId();
         this.checkEndGame();

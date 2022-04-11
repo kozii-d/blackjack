@@ -27,6 +27,7 @@ export default class Player {
         }
         if (this.#score > 21) {
             this.isLose = true;
+            this.isStand = true;
         }
     }
 
