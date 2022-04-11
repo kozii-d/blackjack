@@ -4,11 +4,11 @@ import Player from "./player";
 export default class Game {
     cardsDeck = [];
     players;
+    winners = [];
     idIndex = 0;
     arrayOfPlayerId = [];
     acitvePlayerId = null;
-    winners = [];
-
+    isEndGame = false;
 
     #suits = ['♣', '♠', '♥', '♦'];
     #highCards = ['J', 'Q', 'K', 'A'];
@@ -27,12 +27,17 @@ export default class Game {
         })
     }
 
+    checkEndGame() {
+        if (!this.players.length) {
+            this.isEndGame = true;
+        }
+    }
+
     setNextPlayerId() {
         if (this.idIndex >= this.arrayOfPlayerId.length) {
             this.idIndex = 0;
         }
         this.acitvePlayerId = this.arrayOfPlayerId[this.idIndex++];
-
     }
 
     createCardsDeck() {
@@ -75,6 +80,7 @@ export default class Game {
         });
         this.moveWinner();
         this.defineWinner();
+        this.checkEndGame();
     }
 
     hit(playerId) {
@@ -87,6 +93,7 @@ export default class Game {
         this.moveWinner();
         this.defineWinner();
         this.setNextPlayerId();
+        this.checkEndGame();
     }
 
     stand(playerId) {
@@ -99,6 +106,7 @@ export default class Game {
         this.moveWinner();
         this.defineWinner();
         this.setNextPlayerId();
+        this.checkEndGame();
     }
 
 
