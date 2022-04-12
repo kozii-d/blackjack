@@ -3,32 +3,57 @@ import '../styles/style.scss';
 import Player from './player';
 import Game from './game'
 
-const game = new Game([new Player(0, 'Alice'), new Player(1, 'Joe'), new Player(2, 'Hue')]);
+const players = [new Player(0, 'Alice'), new Player(1, 'Joe'), new Player(2, 'Hugh')];
+let game = new Game(players);
 
 const hitBtn = document.querySelector('#hit');
 const standBtn = document.querySelector('#stand');
+const modalBtn = document.querySelector('.modal__btn');
+
+const gameField = document.querySelector('.game-field');
+const modal = document.querySelector('.modal');
+const modalHeader = modal.querySelector('.modal__winner');
 
 hitBtn.addEventListener('click', () => {
     game.hit(game.acitvePlayerId);
     renderPlayers();
-    // console.log(game);
 });
 standBtn.addEventListener('click', () => {
     game.stand(game.acitvePlayerId);
     renderPlayers();
-    // console.log(game);
 });
-
-const gameField = document.querySelector('.game-field');
+modalBtn.addEventListener('click', () => {
+    modal.style.display = 'none';
+    players.forEach(player => {
+        player.resertPlayer();
+    })
+    game = new Game(players);
+    renderPlayers();
+});
 
 function renderPlayers() {
     gameField.innerHTML = ``;
     game.players.forEach(player => {
         gameField.appendChild(createPlayer(player));
     })
+    checkEndGame(game);
 }
-renderPlayers();
 
+function checkEndGame(gameObject) {
+    if(gameObject.isEndGame) {
+        modal.style.display = 'block';
+        if (gameObject.winners.length === 0) {
+            modalHeader.textContent = 'Nobody win!';
+        }
+        if (gameObject.winners.length === 1) {
+            modalHeader.textContent = `${gameObject.winners[0].getPlayerName} win!`;
+        }
+        if (gameObject.winners.length > 1) {
+            modalHeader.textContent = `Draw!`;
+        }
+    }
+
+}
 
 function createPlayer(playerObject) {
     const player = document.createElement('div');
@@ -41,6 +66,9 @@ function createPlayer(playerObject) {
     player.classList.remove('player_active');
     if (game.acitvePlayerId === playerObject.getPlayerId){
         player.classList.add('player_active');
+    }
+    if (playerObject.isLose) {
+        player.classList.add('player_lose');
     }
     playerInfo.classList.add('player__info');
     playerName.classList.add('player__name');
@@ -61,7 +89,6 @@ function createPlayer(playerObject) {
 
     return player;
 }
-// console.log(createPlayer(game.players[0]));
 
 function createCard(cardObject) {
     const card = document.createElement('div');
@@ -100,11 +127,4 @@ function createCard(cardObject) {
     return card;
 }
 
-
-
-
-// game.stand(game.acitvePlayerId);
-// game.stand(game.acitvePlayerId);
-// game.stand(game.acitvePlayerId);
-console.log(game);
-
+renderPlayers();

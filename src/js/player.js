@@ -5,7 +5,6 @@ export default class Player {
     #score = 0;
     #name = null;
     cards = [];
-    // isWinner = false;
     isLose = false;
     isStand = false;
 
@@ -19,6 +18,13 @@ export default class Player {
         this.setScore();
         this.checkAce();
         this.checkWin();
+    }
+
+    resertPlayer() {
+        this.cards = [];
+        this.#score = 0;
+        this.isLose = false;
+        this.isStand = false;
     }
 
     checkAce() {

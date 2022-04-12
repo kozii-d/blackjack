@@ -36,9 +36,11 @@ export default class Game {
 
     // todo: иногда бывает пропуск игрока. Не критично, но надо исправить
     setNextPlayerId() {
-        if (this.idIndex >= this.arrayOfPlayerId.length) {
-            this.idIndex = 0;
-        }
+        this.idIndex = 0;
+
+        // if (this.idIndex >= this.arrayOfPlayerId.length) {
+        //     this.idIndex = 0;
+        // }
         this.acitvePlayerId = this.arrayOfPlayerId[this.idIndex++];
     }
 
@@ -53,7 +55,7 @@ export default class Game {
             })
         });
 
-        // this.cardsDeck = [...this.cardsDeck, ...this.cardsDeck,...this.cardsDeck];
+        this.cardsDeck = [...this.cardsDeck, ...this.cardsDeck, ...this.cardsDeck, ...this.cardsDeck];
         this.cardsDeck = this.cardsDeck.sort(() => 0.5 - Math.random());
     }
 
@@ -100,9 +102,14 @@ export default class Game {
             if (player.getPlayerId === playerId) {
                 player.cards.push(this.cardsDeck.shift());
                 player.updatePlayer();
-                this.moveWinner(player);
+                // this.moveWinner(player);
+                // проверка под вопросом
+                if (player.getPlayerScore === 21) {
+                    this.stand(this.acitvePlayerId);
+                }
                 if (player.getPlayerScore > 21) {
-                    this.arrayOfPlayerId.splice(this.arrayOfPlayerId.indexOf(player.getPlayerId), 1)
+                    this.arrayOfPlayerId.splice(this.arrayOfPlayerId.indexOf(player.getPlayerId), 1);
+                    // this.idIndex = 0;
                     this.setNextPlayerId();
                 }
             }
@@ -120,6 +127,8 @@ export default class Game {
                 this.arrayOfPlayerId.splice(this.arrayOfPlayerId.indexOf(player.getPlayerId), 1)
             }
         });
+        // this.idIndex = 0;
+
         this.defineWinner();
         this.setNextPlayerId();
         this.checkEndGame();
