@@ -44,9 +44,9 @@ export default class Game {
 
     createCardsDeck() {
         this.#suits.forEach((suit) => {
-            // for (let i = 2; i <= 10; i++) {
-            //     this.cardsDeck.push(new Card(`${i}`, suit, i));
-            // }
+            for (let i = 2; i <= 10; i++) {
+                this.cardsDeck.push(new Card(`${i}`, suit, i));
+            }
             this.#highCards.forEach(card => {
                 this.cardsDeck.push(new Card(`${card}`, suit, card === 'A' ? 11 : 10));
 
