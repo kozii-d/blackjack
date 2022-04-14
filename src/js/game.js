@@ -28,7 +28,6 @@ export default class Game {
     }
 
     checkEndGame() {
-        // this.players.forEach(player => this.isEndGame = player.isStand);
         if (!this.arrayOfPlayerId.length) {
             this.isEndGame = true;
         }
@@ -37,10 +36,6 @@ export default class Game {
     // todo: иногда бывает пропуск игрока. Не критично, но надо исправить
     setNextPlayerId() {
         this.idIndex = 0;
-
-        // if (this.idIndex >= this.arrayOfPlayerId.length) {
-        //     this.idIndex = 0;
-        // }
         this.acitvePlayerId = this.arrayOfPlayerId[this.idIndex++];
     }
 
@@ -63,9 +58,6 @@ export default class Game {
        if (player.isStand && !player.isLose) {
            this.winners.push(player);
        }
-
-        // this.winners = this.winners.concat(this.players.filter(player => player.isStand && !player.isLose));
-        // this.players = this.players.filter(player => !player.isStand && !player.isLose);
     }
 
     defineWinner() {
@@ -90,7 +82,6 @@ export default class Game {
             if (player.getPlayerScore === 21) {
                 this.arrayOfPlayerId.splice(this.arrayOfPlayerId.indexOf(player.getPlayerId), 1);
                 this.acitvePlayerId = this.arrayOfPlayerId[0];
-                // this.setNextPlayerId();
             }
         });
         this.defineWinner();
@@ -98,37 +89,26 @@ export default class Game {
     }
 
     hit(playerId) {
-        this.players.forEach(player => {
-            if (player.getPlayerId === playerId) {
+        const player = this.players.find((elem) => elem.getPlayerId === playerId);
                 player.cards.push(this.cardsDeck.shift());
                 player.updatePlayer();
-                // this.moveWinner(player);
-                // проверка под вопросом
                 if (player.getPlayerScore === 21) {
                     this.stand(this.acitvePlayerId);
                 }
                 if (player.getPlayerScore > 21) {
                     this.arrayOfPlayerId.splice(this.arrayOfPlayerId.indexOf(player.getPlayerId), 1);
-                    // this.idIndex = 0;
                     this.setNextPlayerId();
                 }
-            }
-        });
         this.defineWinner();
         this.checkEndGame();
     }
 
     stand(playerId) {
-        this.players.forEach(player => {
-            if (player.getPlayerId === playerId) {
-                player.isStand = true;
-                player.updatePlayer();
-                this.moveWinner(player);
-                this.arrayOfPlayerId.splice(this.arrayOfPlayerId.indexOf(player.getPlayerId), 1)
-            }
-        });
-        // this.idIndex = 0;
-
+        const player = this.players.find((elem) => elem.getPlayerId === playerId);
+        player.isStand = true;
+        player.updatePlayer();
+        this.moveWinner(player);
+        this.arrayOfPlayerId.splice(this.arrayOfPlayerId.indexOf(player.getPlayerId), 1)
         this.defineWinner();
         this.setNextPlayerId();
         this.checkEndGame();
