@@ -89,7 +89,7 @@ export default class Game {
     }
 
     hit(playerId) {
-        const player = this.players.find((elem) => elem.getPlayerId === playerId);
+        const player = this.players.find(elem => elem.getPlayerId === playerId);
                 player.cards.push(this.cardsDeck.shift());
                 player.updatePlayer();
                 if (player.getPlayerScore === 21) {
@@ -104,7 +104,7 @@ export default class Game {
     }
 
     stand(playerId) {
-        const player = this.players.find((elem) => elem.getPlayerId === playerId);
+        const player = this.players.find(elem => elem.getPlayerId === playerId);
         player.isStand = true;
         player.updatePlayer();
         this.moveWinner(player);
